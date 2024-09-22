@@ -17,7 +17,6 @@ COPY . .
 EXPOSE 8501
 
 # Set environment variables to ensure Streamlit runs properly
-ENV PYTHONUNBUFFERED=1
 ENV PINECONE_API_KEY=<your-pinecone-api-key>
 ENV OPENAI_API_KEY=<your-openai-api-key>
 
