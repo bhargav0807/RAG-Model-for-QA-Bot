@@ -23,7 +23,7 @@
 
 ## Part-2
 - Documentation and Explanation is clearly provided in the code.
-- Access streamlit deployed app here (https://rag-model-for-app-bot-part-2.streamlit.app/)
+- Access streamlit deployed app here (https://pdf-rag-chatbot-persistantdb.streamlit.app/)
   
   ![](https://github.com/bhargav0807/RAG-Model-for-QA-Bot/blob/main/UI.png)
 
