@@ -1,4 +1,6 @@
 # Importing Required Libraries
+import warnings
+warnings.filterwarnings("ignore")
 import streamlit as st
 from pinecone import Pinecone as PC
 from pinecone import ServerlessSpec
@@ -11,6 +13,7 @@ from langchain.prompts import PromptTemplate
 from langchain.schema import SystemMessage, HumanMessage
 from dotenv import load_dotenv
 import os
+from io import BytesIO
 import time
 
 # Load environment variables
@@ -23,11 +26,12 @@ st.title('Part-2: Interactive QA Bot Interface')
 uploaded_file = st.file_uploader("Upload a PDF file / Query on already uploaded pdfs", type="pdf")
 
 # Function to read and process the PDF file
-def read_doc(uploaded_file):
-    # Use the file object directly
-    with open(uploaded_file.name, "wb") as f:
-        f.write(uploaded_file.getbuffer())  # Save the file temporarily
-    loader = PyPDFLoader(uploaded_file.name)  # Load the saved file using PyPDFLoader
+def read_doc(file):
+    if isinstance(file, str):  # If the file is a string (file path), read from disk
+        loader = PyPDFLoader(file)
+    else:  # If it's an uploaded file (BytesIO object)
+        pdf_data = BytesIO(file.read())  # Read the uploaded file into memory
+        loader = PyPDFLoader(pdf_data)  # Pass the in-memory file to PyPDFLoader
     docs = loader.load()
     return docs
 
