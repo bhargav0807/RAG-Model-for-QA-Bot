@@ -27,4 +27,4 @@
   
   ![](https://github.com/bhargav0807/RAG-Model-for-QA-Bot/blob/main/UI.png)
 
-- We can upload a PDF and query it and As i have already uploaded [budget_speech.pdf](https://github.com/bhargav0807/RAG-Model-for-QA-Bot/blob/main/budget_speech.pdf), Gen AI Engineer / ML Engineer Assignment Pdf are already in vectorDB, we can even query it.
+- We can upload a PDF and query it and As i have already uploaded [budget_speech.pdf](https://github.com/bhargav0807/RAG-Model-for-QA-Bot/blob/main/budget_speech.pdf), Gen AI Engineer / ML Engineer Assignment Pdf are already in vectorDB, we can even query them.
