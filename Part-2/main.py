@@ -23,8 +23,11 @@ st.title('Part-2: Interactive QA Bot Interface')
 uploaded_file = st.file_uploader("Upload a PDF file / Query on already uploaded pdfs", type="pdf")
 
 # Function to read and process the PDF file
-def read_doc(doc):
-    loader = PyPDFLoader(doc)
+def read_doc(uploaded_file):
+    # Use the file object directly
+    with open(uploaded_file.name, "wb") as f:
+        f.write(uploaded_file.getbuffer())  # Save the file temporarily
+    loader = PyPDFLoader(uploaded_file.name)  # Load the saved file using PyPDFLoader
     docs = loader.load()
     return docs
 
@@ -41,7 +44,7 @@ if uploaded_file is not None:
         chunks = chunk_data(docs=doc)
 
         # Display the number of chunks created
-        st.success(f"Document chunked into {len(chunks)} parts")
+        st.success(f"Document Processed and Chunked! ")
 
 # Embedding model configuration
 embedding_model = OpenAIEmbeddings(model="text-embedding-3-small")
@@ -50,8 +53,12 @@ embedding_model = OpenAIEmbeddings(model="text-embedding-3-small")
 pc = PC(api_key=os.getenv("PINECONE_API_KEY"))
 index_name = "docs-rag"
 
+existing_indexes = [
+    index_info["name"] for index_info in pc.list_indexes()
+]
+
 # Check if index already exists
-if not pc.has_index(index_name):
+if index_name not in existing_indexes:
     pc.create_index(
         name=index_name,
         dimension=1536,
@@ -127,4 +134,3 @@ if st.button("Submit"):
           answer, source = run_augmented_prompt(query)
           st.success(f"Answer: {answer}")
           st.write(f"Source: {source}")
-
