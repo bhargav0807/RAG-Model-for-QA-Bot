@@ -1,6 +1,4 @@
 # Importing Required Libraries
-import warnings
-warnings.filterwarnings("ignore")
 import streamlit as st
 from pinecone import Pinecone as PC
 from pinecone import ServerlessSpec
