@@ -1,4 +1,6 @@
 # Importing Required Libraries
+import warnings
+warnings.filterwarnings("ignore")
 import streamlit as st
 from pinecone import Pinecone as PC
 from pinecone import ServerlessSpec
@@ -70,25 +72,6 @@ embedding_model = OpenAIEmbeddings(model="text-embedding-3-small")
 # Connect to Pinecone and Create Index
 pc = PC(api_key=os.getenv("PINECONE_API_KEY"))
 index_name = "docs-rag"
-
-existing_indexes = [
-    index_info["name"] for index_info in pc.list_indexes()
-]
-
-# Check if index already exists
-if index_name not in existing_indexes:
-    pc.create_index(
-        name=index_name,
-        dimension=1536,
-        metric="cosine",
-        spec=ServerlessSpec(
-            cloud='aws', 
-            region='us-east-1'
-        ) 
-    )
-    # Wait for index to be initialized
-    while not pc.describe_index(index_name).status['ready']:
-        time.sleep(1)
 
 # Store document chunks in Pinecone
 if uploaded_file is not None:
