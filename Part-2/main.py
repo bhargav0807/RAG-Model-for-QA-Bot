@@ -27,16 +27,6 @@ st.title('Part-2: Interactive QA Bot Interface')
 uploaded_file = st.file_uploader("Upload a PDF file / Query on already uploaded pdfs", type="pdf")
 
 # Function to read and process the PDF file
-def read_doc(file):
-    if isinstance(file, str):  # If the file is a string (file path), read from disk
-        loader = PyPDFLoader(file)
-    else:  # If it's an uploaded file (BytesIO object)
-        pdf_data = BytesIO(file.read())  # Read the uploaded file into memory
-        loader = PyPDFLoader(pdf_data)  # Pass the in-memory file to PyPDFLoader
-    docs = loader.load()
-    return docs
-
-# Function to read and process the PDF file
 def read_doc(uploaded_file):
     # Create a temporary file
     with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp_file:
