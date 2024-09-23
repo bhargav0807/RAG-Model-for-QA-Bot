@@ -13,6 +13,7 @@ from langchain.prompts import PromptTemplate
 from langchain.schema import SystemMessage, HumanMessage
 from dotenv import load_dotenv
 import os
+import tempfile
 from io import BytesIO
 import time
 
@@ -33,6 +34,24 @@ def read_doc(file):
         pdf_data = BytesIO(file.read())  # Read the uploaded file into memory
         loader = PyPDFLoader(pdf_data)  # Pass the in-memory file to PyPDFLoader
     docs = loader.load()
+    return docs
+
+# Function to read and process the PDF file
+def read_doc(uploaded_file):
+    # Create a temporary file
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp_file:
+        # Write the uploaded file content to the temporary file
+        tmp_file.write(uploaded_file.read())
+        tmp_file_path = tmp_file.name  # Store the temporary file path
+
+    try:
+        # Use PyPDFLoader to load the file using the temp file path
+        loader = PyPDFLoader(tmp_file_path)
+        docs = loader.load()
+    finally:
+        # Clean up the temporary file
+        os.remove(tmp_file_path)
+
     return docs
 
 # Chunking the data
